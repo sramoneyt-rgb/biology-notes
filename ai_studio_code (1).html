@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Docs</title> <!-- Fake Title -->
+    <style>
+        /* CSS STYLES */
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            padding: 40px 0;
+            background: #1e1e1e;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            background: #252525;
+            border-color: #444;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .game-card h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Education Portal</h1>
+        <p>Select a library resource to view</p>
+    </header>
+
+    <div id="game-container" class="grid-container">
+        <!-- Games will be injected here -->
+    </div>
+
+    <script>
+        /* JSON DATA (Stored inside the JS now to avoid blockages) */
+        const games = [
+            {
+                "title": "Slope",
+                "url": "https://kdata1.com/2020/05/slope/",
+                "thumbnail": "https://upload.wikimedia.org/wikipedia/en/c/c5/Slope_Game_Cover.png"
+            },
+            {
+                "title": "Retro Bowl",
+                "url": "https://game316022.konggames.com/gamez/0031/6022/live/index.html",
+                "thumbnail": "https://play-lh.googleusercontent.com/9n_p_p_f_p_p_f_p_p_f_p_p_f_p_p_f" 
+            },
+            {
+                "title": "Drive Mad",
+                "url": "https://768823526-778233771960105307.preview.editmysite.com/uploads/b/139890129-875883570656608828/files/dm.html",
+                "thumbnail": "https://via.placeholder.com/150?text=Drive+Mad"
+            }
+        ];
+
+        /* JAVASCRIPT LOGIC */
+        const container = document.getElementById('game-container');
+
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            
+            card.innerHTML = `
+                <img src="${game.thumbnail}" alt="${game.title}">
+                <h3>${game.title}</h3>
+            `;
+
+            card.onclick = () => {
+                openGame(game.url, game.title);
+            };
+
+            container.appendChild(card);
+        });
+
+        function openGame(url, title) {
+            // This opens a new window with NO URL (about:blank) 
+            // This is the "Cloak" that hides it from school history
+            var win = window.open('about:blank', '_blank');
+            
+            var doc = win.document;
+            doc.title = title;
+            
+            var iframe = doc.createElement('iframe');
+            iframe.style.width = "100vw";
+            iframe.style.height = "100vh";
+            iframe.style.border = "none";
+            iframe.style.position = "fixed";
+            iframe.style.top = "0";
+            iframe.style.left = "0";
+            iframe.src = url;
+
+            doc.body.style.margin = "0";
+            doc.body.appendChild(iframe);
+        }
+    </script>
+</body>
+</html>
